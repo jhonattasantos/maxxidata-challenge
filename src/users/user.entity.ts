@@ -23,6 +23,9 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
+  @Column({ nullable: false })
+  salt: string;
+
   @Column({ nullable: true, type: 'varchar', length: 64 })
   confirmationToken: string;
 
