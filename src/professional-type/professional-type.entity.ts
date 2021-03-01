@@ -4,33 +4,27 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { ProfessionalType } from '../professional-type/professional-type.entity';
+import { Professional } from '../professional/professional.entity';
 
-@Entity({ name: 'professionals' })
-export class Professional {
+@Entity({ name: 'professional_types' })
+@Unique(['description'])
+export class ProfessionalType {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  name: string;
-
-  @Column()
-  telephone: string;
-
-  @Column()
-  email: string;
+  description: string;
 
   @Column({ default: true })
   situation: boolean;
 
-  @ManyToOne(() => ProfessionalType, (type) => type.professionals, {
-    nullable: false,
-  })
-  type: ProfessionalType;
+  @OneToMany(() => Professional, (professional) => professional.type)
+  professionals: Professional;
 
   @CreateDateColumn()
   createdAt: Date;
