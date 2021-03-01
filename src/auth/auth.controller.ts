@@ -1,8 +1,7 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { SignUp } from './usecases/sign-up';
 import { AuthService } from './auth.service';
-import * as bcrypt from 'bcrypt';
-import crypto from 'crypto';
+import { SignIn } from './usecases/SignIn';
 
 @Controller('auth')
 export class AuthController {
