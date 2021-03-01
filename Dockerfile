@@ -10,4 +10,6 @@ ADD . /app
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+RUN chown -R www-data:www-data /app/*
+
+CMD ["yarn", "start"]
