@@ -1,7 +1,16 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  ValidationPipe,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { SignUp } from './usecases/sign-up';
 import { AuthService } from './auth.service';
 import { SignIn } from './usecases/SignIn';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -14,5 +23,10 @@ export class AuthController {
   @Post('sign-in')
   async signIn(@Body(ValidationPipe) signIn: SignIn) {
     return await this.authService.signIn(signIn);
+  }
+  @Get('me')
+  @UseGuards(AuthGuard())
+  async me(@Req() req) {
+    return req.user;
   }
 }
