@@ -16,6 +16,21 @@ services:
     networks:
       - app-network
     command: npm run start:dev
+
+  db:
+    image: postgres:12.6-alpine
+    container_name: 'db'
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_USER: "root"
+      POSTGRES_DB: "maxxidata_dev"
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    networks:
+      - app-network
   networks:
     app-network:
       driver: bridge
