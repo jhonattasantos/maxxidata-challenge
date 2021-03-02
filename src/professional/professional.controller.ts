@@ -1,19 +1,41 @@
-import { Controller } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ProfessionalService } from './professional.service';
+import { CreateProfessional } from './usecases/create-professional';
+import { UpdateProfessional } from './usecases/update-professional';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('professional')
+@UseGuards(AuthGuard())
+@Controller('professionals')
 export class ProfessionalController {
   constructor(private professionalService: ProfessionalService) {}
+
+  @Get()
   getAll() {
-    return 'all';
+    return this.professionalService.all();
   }
-  getOne() {
-    return 'one';
+  @Get(':id')
+  getOne(@Param('id') id: string) {
+    return this.professionalService.getOne(id);
   }
-  create() {
-    return 'create';
+  @Post()
+  create(@Body(ValidationPipe) createProfessional: CreateProfessional) {
+    return this.professionalService.create(createProfessional);
   }
-  update() {
-    return 'update';
+
+  @Put(':id')
+  update(
+    @Body(ValidationPipe) updateProfessional: UpdateProfessional,
+    @Param('id') id,
+  ) {
+    return this.professionalService.update(id, updateProfessional);
   }
 }
