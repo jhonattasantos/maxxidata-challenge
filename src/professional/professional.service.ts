@@ -21,7 +21,9 @@ export class ProfessionalService {
   ) {}
 
   async all(): Promise<Professional[]> {
-    return await this.professionalRepository.find();
+    return await this.professionalRepository.find({
+      relations: ['typeOfProfessional'],
+    });
   }
 
   async getOne(id: string): Promise<Professional> {
