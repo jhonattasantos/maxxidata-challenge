@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ProfessionalModule } from './professional/professional.module';
 import { ProfessionalTypeModule } from './professional-type/professional-type.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmConfig), UsersModule, AuthModule, ProfessionalModule, ProfessionalTypeModule],
+  imports: [TypeOrmModule.forRoot(typeOrmConfig), UsersModule, AuthModule, ProfessionalModule, ProfessionalTypeModule, DashboardModule],
   controllers: [],
   providers: [],
 })
