@@ -16,7 +16,7 @@ Vamos criar então uma aplicação que nos permita consultar, criar e editar ess
 Você pode mudar as variaveis de ambiente no arquivo .env na raiz do projeto. Abaixo as configurações 
 
 ``` text
-PORT=3000
+PORT=4000
 POSTGRES_PASSWORD=root
 POSTGRES_USER=root
 POSTGRES_DB=maxxidata_challenge
