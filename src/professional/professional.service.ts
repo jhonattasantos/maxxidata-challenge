@@ -2,15 +2,14 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  PreconditionFailedException,
 } from '@nestjs/common';
 import { CreateProfessional } from './usecases/create-professional';
 import { UpdateProfessional } from './usecases/update-professional';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProfessionalRepository } from './professional.repository';
 import { Professional } from './professional.entity';
-import { ProfessionalType } from '../professional-type/professional-type.entity';
 import { ProfessionalTypeRepository } from '../professional-type/professional-type.repository';
+import { types } from 'util';
 
 @Injectable()
 export class ProfessionalService {
@@ -26,16 +25,20 @@ export class ProfessionalService {
   }
 
   async getOne(id: string): Promise<Professional> {
-    const professional = await this.professionalRepository.findOne(id);
+    const professional = await this.professionalRepository.findOne(id, {
+      relations: ['typeOfProfessional'],
+    });
+
     if (!professional) {
       throw new NotFoundException('Profissional não encontrado');
     }
+
     return professional;
   }
 
   async create(createProfessional: CreateProfessional) {
     const professionalType = await this.professionalTypeRepository.findOne(
-      createProfessional.professionalType,
+      createProfessional.typeOfProfessional,
     );
 
     if (!professionalType) {
@@ -44,7 +47,7 @@ export class ProfessionalService {
 
     const professional = await this.professionalRepository.create({
       ...createProfessional,
-      type: professionalType,
+      typeOfProfessional: professionalType,
     });
 
     try {
@@ -56,7 +59,7 @@ export class ProfessionalService {
     }
   }
 
-  update(id: string, updateProfessional: UpdateProfessional) {
+  async update(id: string, updateProfessional: UpdateProfessional) {
     const professional = this.professionalRepository.findOne(id);
 
     if (!professional) {
@@ -64,7 +67,23 @@ export class ProfessionalService {
     }
 
     try {
-      this.professionalRepository.update({ id }, updateProfessional);
+      const typeOfProfessional = await this.professionalTypeRepository.findOne(
+        updateProfessional.typeOfProfessional,
+      );
+
+      const { email, name, situation, telephone } = updateProfessional;
+
+      this.professionalRepository.update(
+        { id },
+        {
+          email,
+          name,
+          situation,
+          telephone,
+          typeOfProfessional,
+        },
+      );
+
       return professional;
     } catch (error) {}
   }

@@ -23,7 +23,10 @@ export class ProfessionalType {
   @Column({ default: true })
   situation: boolean;
 
-  @OneToMany(() => Professional, (professional) => professional.type)
+  @OneToMany(
+    () => Professional,
+    (professional) => professional.typeOfProfessional,
+  )
   professionals: Professional;
 
   @CreateDateColumn()

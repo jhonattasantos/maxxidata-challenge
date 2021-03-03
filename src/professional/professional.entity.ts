@@ -27,10 +27,14 @@ export class Professional {
   @Column({ default: true })
   situation: boolean;
 
-  @ManyToOne(() => ProfessionalType, (type) => type.professionals, {
-    nullable: false,
-  })
-  type: ProfessionalType;
+  @ManyToOne(
+    () => ProfessionalType,
+    (typeOfProfessional) => typeOfProfessional.professionals,
+    {
+      nullable: false,
+    },
+  )
+  typeOfProfessional: ProfessionalType;
 
   @CreateDateColumn()
   createdAt: Date;
