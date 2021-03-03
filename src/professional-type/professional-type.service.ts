@@ -54,7 +54,7 @@ export class ProfessionalTypeService {
         { id },
         { ...updateProfessionalType },
       );
-      return professionalType;
+      return await this.professionalTypeRepository.findOne(id);
     } catch (error) {
       throw new InternalServerErrorException('error ao atualizar');
     }
