@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProfessionalType } from './usecases/create-professional-type';
 import { UpdateProfessionalType } from './usecases/update-professional-type';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -40,11 +44,16 @@ export class ProfessionalTypeService {
     updateProfessionalType: UpdateProfessionalType,
   ): Promise<ProfessionalType> {
     const professionalType = await this.professionalTypeRepository.findOne(id);
-    const { description } = updateProfessionalType;
+
+    if (!professionalType) {
+      throw new NotFoundException('Profissão não encontrado');
+    }
 
     try {
-      professionalType.description = description;
-      await this.professionalTypeRepository.save(professionalType);
+      await this.professionalTypeRepository.update(
+        { id },
+        { ...updateProfessionalType },
+      );
       return professionalType;
     } catch (error) {
       throw new InternalServerErrorException('error ao atualizar');

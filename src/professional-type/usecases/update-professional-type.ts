@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, MinLength } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateProfessionalType {
   @ApiProperty()
@@ -7,4 +7,7 @@ export class UpdateProfessionalType {
   @IsString()
   @MinLength(2)
   readonly description: string;
+
+  @ApiPropertyOptional()
+  readonly situation?: boolean;
 }
