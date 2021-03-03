@@ -8,7 +8,7 @@ RUN npm install
 
 ADD . /app
 
-EXPOSE 3000
+EXPOSE 4000
 
 RUN chown -R www-data:www-data /app/*
 

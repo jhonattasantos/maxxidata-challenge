@@ -27,9 +27,8 @@ export class ProfessionalTypeService {
   async create(
     createProfessionalType: CreateProfessionalType,
   ): Promise<ProfessionalType> {
-    const { description } = createProfessionalType;
     const professionalType = this.professionalTypeRepository.create({
-      description,
+      ...createProfessionalType,
     });
     try {
       await this.professionalTypeRepository.save(professionalType);

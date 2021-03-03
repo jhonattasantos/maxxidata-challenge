@@ -7,4 +7,7 @@ export class CreateProfessionalType {
   @IsString()
   @MinLength(2)
   readonly description: string;
+
+  @ApiProperty()
+  readonly situation?: boolean;
 }
