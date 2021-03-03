@@ -69,11 +69,13 @@ export class ProfessionalService {
     }
 
     try {
-      const typeOfProfessional = await this.professionalTypeRepository.findOne(
-        updateProfessional.typeOfProfessional,
-      );
-
-      const { email, name, situation, telephone } = updateProfessional;
+      const {
+        email,
+        name,
+        situation,
+        telephone,
+        typeOfProfessional,
+      } = updateProfessional;
 
       professional.name = name ? name : professional.name;
       professional.email = email ? email : professional.email;
@@ -85,7 +87,9 @@ export class ProfessionalService {
 
       await this.professionalRepository.save(professional);
 
-      return professional;
+      return await this.professionalRepository.findOne(id, {
+        relations: ['typeOfProfessional'],
+      });
     } catch (error) {}
   }
 }

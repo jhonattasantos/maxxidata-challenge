@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ProfessionalType } from '../../professional-type/professional-type.entity';
 
 export class UpdateProfessional {
   @ApiPropertyOptional()
@@ -14,5 +15,5 @@ export class UpdateProfessional {
   readonly situation?: boolean;
 
   @ApiPropertyOptional()
-  readonly typeOfProfessional?: string;
+  readonly typeOfProfessional?: ProfessionalType;
 }
