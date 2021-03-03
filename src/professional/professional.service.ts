@@ -62,7 +62,7 @@ export class ProfessionalService {
   }
 
   async update(id: string, updateProfessional: UpdateProfessional) {
-    const professional = this.professionalRepository.findOne(id);
+    const professional = await this.professionalRepository.findOne(id);
 
     if (!professional) {
       throw new NotFoundException('Profissional não encontrado');
@@ -75,16 +75,15 @@ export class ProfessionalService {
 
       const { email, name, situation, telephone } = updateProfessional;
 
-      this.professionalRepository.update(
-        { id },
-        {
-          email,
-          name,
-          situation,
-          telephone,
-          typeOfProfessional,
-        },
-      );
+      professional.name = name ? name : professional.name;
+      professional.email = email ? email : professional.email;
+      professional.situation = situation;
+      professional.telephone = telephone ? telephone : professional.telephone;
+      professional.typeOfProfessional = typeOfProfessional
+        ? typeOfProfessional
+        : professional.typeOfProfessional;
+
+      await this.professionalRepository.save(professional);
 
       return professional;
     } catch (error) {}

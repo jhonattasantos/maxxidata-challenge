@@ -6,6 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ProfessionalType } from '../../professional-type/professional-type.entity';
 
 export class CreateProfessional {
   @ApiProperty()
@@ -26,6 +27,5 @@ export class CreateProfessional {
   readonly situation?: boolean;
 
   @ApiProperty()
-  @IsUUID()
-  readonly typeOfProfessional: string;
+  readonly typeOfProfessional: ProfessionalType;
 }
